@@ -131,9 +131,9 @@
         var baseurl = window.location.href;
         if (!(/^http[s]?:\/\/localhost\:[0-9]+\//.test(baseurl)))
         {
-            baseurl = "https://imgtutfuncapp.azurewebsites.net"
+            baseurl = "https://dwhiq-imgblobtut.azurewebsites.net"
         }
-        baseurl = "https://imgtutfuncapp.azurewebsites.net"
+        baseurl = "https://dwhiq-imgblobtut.azurewebsites.net"
         var request = new XMLHttpRequest()
         request.open('GET', baseurl + '/api/GetImgInfo', true)
         request.onload = function() {
