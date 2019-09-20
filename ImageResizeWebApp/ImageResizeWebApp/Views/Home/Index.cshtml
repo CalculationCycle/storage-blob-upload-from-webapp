@@ -82,6 +82,13 @@
                 <a class="play-pause"></a>
                 <ol class="indicator"></ol>
             </div>
+
+            <div>
+                <h4>Image info</h4>
+                <div id="imageInfoDiv">
+                    &lt;Image info&gt;
+                </div>
+            </div>
         </div>
     </div>
     <div class="box footer">
@@ -99,6 +106,70 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
 <script>
+    // Update image info
+    function updateImageInfo(imglink)
+    {
+        console.log("updateImageInfo");
+        document.getElementById("imageInfoDiv").innerHTML = imgLink;
+        
+    }
+
+    function onGallerySlide(index) {
+        //var unique_id = this.list[index].getAttribute('data-unique-id');
+        /*
+        var unique_id = index;
+        console.log(unique_id);
+        document.getElementById("imageInfoDiv").innerHTML = unique_id;
+        */
+        /*
+        var url = this.list[index];
+        var imgname = url.substring(url.lastIndexOf('/')+1);
+        console.log(imgname);
+        document.getElementById("imageInfoDiv").innerHTML = imgname;
+        */
+        
+        var baseurl = window.location.href;
+        if (!(/^http[s]?:\/\/localhost\:[0-9]+\//.test(baseurl)))
+        {
+            baseurl = "https://imgtutfuncapp.azurewebsites.net"
+        }
+        baseurl = "https://imgtutfuncapp.azurewebsites.net"
+        var request = new XMLHttpRequest()
+        request.open('GET', baseurl + '/api/GetImgInfo', true)
+        request.onload = function() {
+            // Begin accessing JSON data here
+            //var data = JSON.parse(this.response)
+
+            if (request.status >= 200 && request.status < 400) {
+                document.getElementById("imageInfoDiv").innerHTML = this.response;
+            } else {
+                console.log('error')
+            }
+        }
+
+        request.send()
+        /*
+        // "/api/GetImgInfo";
+        var request = new XMLHttpRequest()
+
+        request.open('GET', 'https://ghibliapi.herokuapp.com/films', true)
+        request.onload = function() {
+        // Begin accessing JSON data here
+        var data = JSON.parse(this.response)
+
+        if (request.status >= 200 && request.status < 400) {
+            data.forEach(movie => {
+            console.log(movie.title)
+            })
+        } else {
+            console.log('error')
+        }
+        }
+
+        request.send()
+        */
+    }
+
     // init gallery for later use
     var gallery;
 
@@ -120,9 +191,10 @@
                                 fetchedImageLinks, // gallery links array
                                 {
                                     container: '#blueimp-gallery-carousel',
-                                    carousel: true
+                                    carousel: true,
+                                    onslide: onGallerySlide
                                 } // gallery options
-                            );                    
+                            );
                 } else {
                     // check if images are equal to array
                     console.log('currently in gallery:')
@@ -144,6 +216,9 @@
 
                         // Force image load
                         gallery.next();
+
+                        // Update image info
+                        updateImageInfo(newImageLinks);
                     }
                 }       
             }     
@@ -172,5 +247,3 @@
         }
     };
 </script>
-
-// 1245
