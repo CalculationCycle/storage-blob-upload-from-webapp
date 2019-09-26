@@ -121,21 +121,25 @@
         console.log(unique_id);
         document.getElementById("imageInfoDiv").innerHTML = unique_id;
         */
-        /*
+        
         var url = this.list[index];
-        var imgname = url.substring(url.lastIndexOf('/')+1);
+        var fileext = "";
+        if (url.search(".jpg") > -1){ fileext = ".jpg"; }
+        else if (url.search(".jpeg") > -1){ fileext = ".jpeg"; }
+        else if (url.search(".png") > -1){ fileext = ".png"; }
+        var imgname = url.substring(url.lastIndexOf('/')+1, url.search(fileext)+fileext.length);
         console.log(imgname);
-        document.getElementById("imageInfoDiv").innerHTML = imgname;
-        */
+        //document.getElementById("imageInfoDiv").innerHTML = imgname;
+        
         
         var baseurl = window.location.href;
         if (!(/^http[s]?:\/\/localhost\:[0-9]+\//.test(baseurl)))
         {
-            baseurl = "https://dwhiq-imgblobtut.azurewebsites.net"
+            baseurl = "https://imgtutfuncapp.azurewebsites.net"
         }
-        baseurl = "https://dwhiq-imgblobtut.azurewebsites.net"
+        baseurl = "https://imgtutfuncapp.azurewebsites.net"
         var request = new XMLHttpRequest()
-        request.open('GET', baseurl + '/api/GetImgInfo', true)
+        request.open('GET', baseurl + '/api/GetImgInfo?imgname='+encodeURIComponent(imgname), true)
         request.onload = function() {
             // Begin accessing JSON data here
             //var data = JSON.parse(this.response)
