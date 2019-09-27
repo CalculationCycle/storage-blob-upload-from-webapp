@@ -129,7 +129,7 @@
         }
         else
         {
-            return "<i>No image info for </i>"+imgName+".";
+            return imgName+"<BR>"+tableData+"<BR>\n";
         }
     }
 
@@ -159,6 +159,7 @@
         baseurl = "https://imgtutfuncapp.azurewebsites.net"
         var request = new XMLHttpRequest()
         request.open('GET', baseurl + '/api/GetImgInfo?imgname='+encodeURIComponent(imgname), true)
+        request.timeout = 500
         request.onload = function() {
             // Begin accessing JSON data here
             //var data = JSON.parse(this.response)
